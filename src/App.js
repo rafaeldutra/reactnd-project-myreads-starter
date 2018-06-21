@@ -1,5 +1,6 @@
 import React from 'react'
-// import * as BooksAPI from './BooksAPI'
+import ListBooks from './ListBooks'
+import * as BooksAPI from './BooksAPI'
 import './App.css'
 
 class BooksApp extends React.Component {
@@ -10,7 +11,20 @@ class BooksApp extends React.Component {
      * users can use the browser's back and forward buttons to navigate between
      * pages, as well as provide a good URL they can bookmark and share.
      */
-    showSearchPage: false
+    showSearchPage: false,
+    Books: [],
+  }
+
+  componentDidMount(){
+    BooksAPI.getAll().then((Books) => {
+     this.setState({ Books })
+    })
+  }
+
+  updateBook(book, shelf){
+    BooksAPI.update(book, shelf).then((result) => {
+      console.log(result);
+    })
   }
 
   render() {
@@ -44,6 +58,11 @@ class BooksApp extends React.Component {
             </div>
             <div className="list-books-content">
               <div>
+                <ListBooks
+                  books={this.state.Books} 
+                />
+
+
                 <div className="bookshelf">
                   <h2 className="bookshelf-title">Currently Reading</h2>
                   <div className="bookshelf-books">
