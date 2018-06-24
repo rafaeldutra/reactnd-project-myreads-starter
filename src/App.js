@@ -15,15 +15,16 @@ class BooksApp extends Component {
     Books: [],
   }
 
-  componentDidMount(){
+  componentDidMount() {
     BooksAPI.getAll().then((Books) => {
-     this.setState({ Books })
+      this.setState({ Books })
     })
   }
 
-  updateBook(book, shelf){
-    BooksAPI.update(book, shelf).then((result) => {
-      console.log(result);
+  updateBook = (id_book, shelf) => {
+    BooksAPI.update({ 'id': id_book }, shelf).then((result) => {
+      this.componentDidMount()
+      {/* TODO :  Verificar uma forma de atulizar os livros localmente sem fazer a requisição novamento */}
       //this.setState({ Books })
     })
   }
@@ -44,7 +45,7 @@ class BooksApp extends Component {
                   However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
                   you don't find a specific author or title. Every search is limited by search terms.
                 */}
-                <input type="text" placeholder="Search by title or author"/>
+                <input type="text" placeholder="Search by title or author" />
 
               </div>
             </div>
@@ -53,40 +54,41 @@ class BooksApp extends Component {
             </div>
           </div>
         ) : (
-          <div className="list-books">
-            <div className="list-books-title">
-              <h1>MyReads</h1>
-            </div>
-            <div className="list-books-content">
-              <div>
-              <div className="bookshelf">
-                      <h2 className="bookshelf-title">Currently Reading</h2>
+            <div className="list-books">
+              <div className="list-books-title">
+                <h1>MyReads</h1>
+              </div>
+              <div className="list-books-content">
+                <div>
+                   {/* TODO :  Esconder a div quando não existir nenhum livro na 'shelf' */}
+                  <div className="bookshelf">
+                    <h2 className="bookshelf-title">Currently Reading</h2>
                     <ListBooks
-                        books={this.state.Books.filter((book) => book.shelf === 'currentlyReading')}
-                        //onUpdateBook={this.updateBook()}
+                      books={this.state.Books.filter((book) => book.shelf === 'currentlyReading')}
+                      onUpdateBook={this.updateBook}
                     />
-                    </div>
-                  <div className="bookshelf">
-                      <h2 className="bookshelf-title">Want to Read</h2>
-                      <ListBooks
-                        books={this.state.Books.filter((book) => book.shelf === 'wantToRead')}
-                        //onUpdateBook={this.updateBook()}
-                      />
                   </div>
                   <div className="bookshelf">
-                      <h2 className="bookshelf-title">Read</h2>
-                      <ListBooks
+                    <h2 className="bookshelf-title">Want to Read</h2>
+                    <ListBooks
+                      books={this.state.Books.filter((book) => book.shelf === 'wantToRead')}
+                      onUpdateBook={this.updateBook}
+                    />
+                  </div>
+                  <div className="bookshelf">
+                    <h2 className="bookshelf-title">Read</h2>
+                    <ListBooks
                       books={this.state.Books.filter((book) => book.shelf === 'read')}
-                     // onUpdateBook={this.updateBook()}
-                      />
+                      onUpdateBook={this.updateBook}
+                    />
                   </div>
+                </div>
+              </div>
+              <div className="open-search">
+                <a onClick={() => this.setState({ showSearchPage: true })}>Add a book</a>
               </div>
             </div>
-            <div className="open-search">
-              <a onClick={() => this.setState({ showSearchPage: true })}>Add a book</a>
-            </div>
-          </div>
-        )}
+          )}
       </div>
     )
   }

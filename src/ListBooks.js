@@ -24,12 +24,9 @@ class ListBooks extends Component {
     )
   }
 
-  handleChange(event) {
-    console.log(event.target.value)
-    console.log(event.target.parentNode.parentNode.id);
-    //this.onUpdateBook(event.target.parentNode.parentNode.id, event.target.value)
+  handleChange = (event) => {
+    this.props.onUpdateBook(event.target.parentNode.parentNode.id, event.target.value)
   }
-
 
   render() {
     const { books, onUpdateBook } = this.props;
