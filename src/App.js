@@ -58,9 +58,24 @@ class BooksApp extends Component {
             </div>
             <div className="list-books-content">
               <div>
-                <ListBooks
-                  books={this.state.Books} 
-                />
+              <div className="bookshelf">
+                      <h2 className="bookshelf-title">Currently Reading</h2>
+                    <ListBooks
+                        books={this.state.Books.filter((book) => book.shelf === 'currentlyReading')} 
+                    />
+                    </div>
+                  <div className="bookshelf">
+                      <h2 className="bookshelf-title">Want to Read</h2>
+                      <ListBooks
+                        books={this.state.Books.filter((book) => book.shelf === 'wantToRead')} 
+                      />
+                  </div>
+                  <div className="bookshelf">
+                      <h2 className="bookshelf-title">Read</h2>
+                      <ListBooks
+                      books={this.state.Books.filter((book) => book.shelf === 'read')} 
+                      />
+                  </div>
               </div>
             </div>
             <div className="open-search">
