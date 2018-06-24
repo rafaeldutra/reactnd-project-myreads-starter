@@ -24,6 +24,7 @@ class BooksApp extends Component {
   updateBook(book, shelf){
     BooksAPI.update(book, shelf).then((result) => {
       console.log(result);
+      //this.setState({ Books })
     })
   }
 
@@ -61,19 +62,22 @@ class BooksApp extends Component {
               <div className="bookshelf">
                       <h2 className="bookshelf-title">Currently Reading</h2>
                     <ListBooks
-                        books={this.state.Books.filter((book) => book.shelf === 'currentlyReading')} 
+                        books={this.state.Books.filter((book) => book.shelf === 'currentlyReading')}
+                        //onUpdateBook={this.updateBook()}
                     />
                     </div>
                   <div className="bookshelf">
                       <h2 className="bookshelf-title">Want to Read</h2>
                       <ListBooks
-                        books={this.state.Books.filter((book) => book.shelf === 'wantToRead')} 
+                        books={this.state.Books.filter((book) => book.shelf === 'wantToRead')}
+                        //onUpdateBook={this.updateBook()}
                       />
                   </div>
                   <div className="bookshelf">
                       <h2 className="bookshelf-title">Read</h2>
                       <ListBooks
-                      books={this.state.Books.filter((book) => book.shelf === 'read')} 
+                      books={this.state.Books.filter((book) => book.shelf === 'read')}
+                     // onUpdateBook={this.updateBook()}
                       />
                   </div>
               </div>
