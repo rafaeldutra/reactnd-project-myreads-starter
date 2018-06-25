@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import ListBooks from './ListBooks';
 import SearchBook from './SearchBook';
 import * as BooksAPI from './BooksAPI';
+import { Route } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import './App.css';
 
@@ -35,17 +36,18 @@ class BooksApp extends Component {
 
     render() {
         return (
-            <div className="app">
-                {this.state.showSearchPage ? (
-                    <SearchBook />
-                ) : (
-                    <div className="list-books">
-                        <div className="list-books-title">
-                            <h1>MyReads</h1>
-                        </div>
-                        <div className="list-books-content">
+            <div className="list-books">
+                <div className="list-books-title">
+                    <h1>MyReads</h1>
+                </div>
+                <div className="list-books-content">
+                    <Route
+                        exact
+                        path="/"
+                        render={() => (
                             <div>
                                 {/* TODO :  Esconder a div quando não existir nenhum livro na 'shelf' */}
+
                                 <div className="bookshelf">
                                     <h2 className="bookshelf-title">Currently Reading</h2>
                                     <ListBooks
@@ -74,17 +76,24 @@ class BooksApp extends Component {
                                     />
                                 </div>
                             </div>
-                        </div>
-                        <div className="open-search">
-                            <Link to="/search" className="open-search"  onClick={() => this.setState({ showSearchPage: true })}>
-                                Add a book
-                            </Link>
-                            {/* <a onClick={() => this.setState({ showSearchPage: true })}>
-                                Add a book
-                            </a> */}
-                        </div>
-                    </div>
-                )}
+                        )}
+                    />
+                </div>
+                <div className="open-search">
+                    <Link to="/search" className="open-search">
+                        Add a Book
+                    </Link>
+                    <Route
+                        path="/search"
+                        render={({ history }) => (
+                            <SearchBook
+                                onSearchBook={() => {
+                                    history.push('/');
+                                }}
+                            />
+                        )}
+                    />
+                </div>
             </div>
         );
     }
