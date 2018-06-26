@@ -3,7 +3,6 @@ import ListBooks from './ListBooks';
 import SearchBook from './SearchBook';
 import * as BooksAPI from './BooksAPI';
 import { Route } from 'react-router-dom';
-import { Link } from 'react-router-dom';
 import './App.css';
 
 class BooksApp extends Component {
@@ -27,63 +26,31 @@ class BooksApp extends Component {
     updateBook = (id_book, shelf) => {
         BooksAPI.update({ id: id_book }, shelf).then(result => {
             this.componentDidMount();
-            {
-                /* TODO :  Verificar uma forma de atulizar os livros localmente sem fazer a requisição novamento */
-            }
-            //this.setState({ Books })
         });
     };
 
     render() {
         return (
           <div className="app">
-            {this.state.showSearchPage ? (
-                <Route path="/search" render={({ history}) => (
-                    <SearchBook onSearchContact={ () => {
-                        history.push('/')
-                      }}
-                    />
-                  )}/>
-            ) : (
+                
                 <Route exact path="/" render={() => (
                 <div className="list-books">
                     <div className="list-books-title">
                         <h1>MyReads</h1>
                     </div>
-                    <div className="list-books-content">
-                        <div>
-                        {/* TODO :  Esconder a div quando não existir nenhum livro na 'shelf' */}
-                        <div className="bookshelf">
-                            <h2 className="bookshelf-title">Currently Reading</h2>
-                            <ListBooks
-                            books={this.state.Books.filter((book) => book.shelf === 'currentlyReading')}
-                            onUpdateBook={this.updateBook}
-                            />
-                        </div>
-                        <div className="bookshelf">
-                            <h2 className="bookshelf-title">Want to Read</h2>
-                            <ListBooks
-                            books={this.state.Books.filter((book) => book.shelf === 'wantToRead')}
-                            onUpdateBook={this.updateBook}
-                            />
-                        </div>
-                        <div className="bookshelf">
-                            <h2 className="bookshelf-title">Read</h2>
-                            <ListBooks
-                            books={this.state.Books.filter((book) => book.shelf === 'read')}
-                            onUpdateBook={this.updateBook}
-                            />
-                        </div>
-                        </div>
-                    </div>
-                    <div className="open-search">
-                        <Link to="/search" className="add-contact" onClick={() => this.setState({ showSearchPage: true })}> Add a book </Link>
-                    </div>
+                    <ListBooks
+                        books={this.state.Books}
+                        onUpdateBook={this.updateBook}
+                    />
                 </div>
                  )}/>
-
-                )
-            }
+                 <Route path="/search" render={({ history}) => (
+                    <SearchBook 
+                        onSearchBook={ () => {
+                        history.push('/')
+                      }
+                    }/>
+                  )}/>
             </div>
         )
     }

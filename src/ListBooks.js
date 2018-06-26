@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom';
 
 class ListBooks extends Component {
   state = {
@@ -28,11 +29,9 @@ class ListBooks extends Component {
     this.props.onUpdateBook(event.target.parentNode.parentNode.id, event.target.value)
   }
 
-  render() {
-    const { books, onUpdateBook } = this.props;
-    if (books.length > 0) {
-      return (
-        <div>
+  renderOrdList = (books) => {
+    return(
+    <div>
           <div className="bookshelf-books">
             <ol className="books-grid">
               {books.map(
@@ -53,8 +52,36 @@ class ListBooks extends Component {
             </ol>
           </div>
         </div>
+    )
+  }
+
+  render() {
+    const { books, onUpdateBook } = this.props;
+    if (books.length > 0) {
+      return (
+        <div className="list-books-content">
+              <div>
+                {/* TODO :  Esconder a div quando não existir nenhum livro na 'shelf' */}
+                <div className="bookshelf">
+                    <h2 className="bookshelf-title">Currently Reading</h2>
+                    {this.renderOrdList(this.props.books.filter((book) => book.shelf === 'currentlyReading'))}
+                </div>
+                <div className="bookshelf">
+                    <h2 className="bookshelf-title">Want to Read</h2>
+                    {this.renderOrdList(books.filter((book) => book.shelf === 'wantToRead'))}
+                </div>
+                <div className="bookshelf">
+                    <h2 className="bookshelf-title">Read</h2>
+                    {this.renderOrdList(books.filter((book) => book.shelf === 'read'))}
+                </div>
+              </div>
+              <div className="open-search">
+                  <Link to="/search"> Add a book </Link>
+              </div>
+          </div>
       )
     } else { return '' }
   }
 }
 export default ListBooks
+
