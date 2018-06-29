@@ -49,10 +49,8 @@ class SearchBook extends Component {
     const found = this.props.myBooks.filter(item => book.id === item.id);
     if (found.length > 0) {
         book.shelf = found[0].shelf;
-        return book;
-    } else {
-        return book;
-    }
+    } 
+    return book;
   }
 
   render() {
